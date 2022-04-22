@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobItilium.Views.AboutPage"
+             xmlns:vm="clr-namespace:MobItilium.ViewModels"
+             Title="{Binding Title}">
+    
+    <ContentPage.BindingContext>
+        <vm:AboutViewModel />
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Accent">#96d1ff</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid x:Name="grider">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackLayout x:Name="newTaskForm" Grid.Row="1" IsVisible="false">
+            <Label x:Name="header" Text="Выберите услугу"  />
+            <Picker x:Name="picker" SelectedIndexChanged="picker_SelectedIndexChanged">
+                <Picker.Items>
+                    <x:String>Закупка секретариат</x:String>
+                    <x:String>Закупки ПТМ</x:String>
+                    <x:String>Отдел Маркетинга</x:String>
+                    <x:String>Поддержка 1С</x:String>
+                    <x:String>СА - рабочее место сотрудника</x:String>
+                    <x:String>Услуги WEB группы</x:String>
+                </Picker.Items>
+            </Picker>
+            <Label x:Name="header2" Text="Тип услуги"  />
+            <Picker x:Name="picker2" SelectedIndexChanged="picker2_SelectedIndexChanged">
+                <Picker.Items>
+                    <x:String>Бухгалтерия и ЗУП</x:String>
+                    <x:String>Диагностика и консультирование 1С</x:String>
+                    <x:String>Не работает 1С</x:String>
+                    <x:String>Поддержка Яруса</x:String>
+                </Picker.Items>
+            </Picker>
+            <Editor Text="Опишите задачу" BackgroundColor="#a5d6a7" HeightRequest="200" />
+
+            <Button Text="Создать обращение" />
+        </StackLayout>
+        <ScrollView Grid.Row="2">
+            <StackLayout>
+                <Button x:Name="newTask" Text="Создать новое обращение обращение" Clicked="Button_Clicked" />
+                <Label Text="Активные обращения" TextColor="#f35e20" FontSize="18"/>
+                <Label Text="{Binding Source={x:Reference Name=phonesList}, Path=SelectedItem.Title}"
+                    FontSize="18" IsVisible="false"/>
+                <ListView x:Name="phonesList"
+                        HasUnevenRows="True"
+                        ItemsSource="{Binding Phones}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <StackLayout>
+                                        <Label Text="{Binding Company}" FontSize="16" TextColor="#f35e20" />
+                                        <Label Text="{Binding Title}"  FontAttributes="Bold"/>
+                                        <Label Text="{Binding Price}" />
+                                    </StackLayout>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>
